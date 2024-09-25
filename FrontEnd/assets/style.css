@@ -130,6 +130,35 @@ li:hover {
 	text-align: center;
 	margin-bottom: 1em;
 }
+
+/******* categories  *******/
+
+.categories {
+	display: flex;
+	justify-content: center;
+	column-gap: 15px;
+	padding: 20px 10px 50px;
+}
+
+.categories button {
+	background-color: transparent;
+	border: 1px solid #1D6154;
+	color: #1D6154;
+	border-radius: 60px;
+	height: 37px;
+	min-width: 100px;
+	font-family: 'Syne';
+	font-weight: 700;
+}
+
+.buttonActive {
+	color: white!important;
+	background-color: #1D6154!important;
+}
+
+
+/* *********************** */
+
 .gallery {
 	width: 100%;
 	display: grid;

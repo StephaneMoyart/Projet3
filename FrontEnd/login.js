@@ -20,17 +20,37 @@ function sendRequestUser () {
             else return null
         })
         .then(x => {
-            if (x !== null) document.cookie = `acces = ${x.token}`
+            if (x !== null) {
+            document.cookie = `acces = ${x.token}`
+            window.location.href = "index.html"
+            }
         }) 
 }
 
 function resCheck (x) {
-    if (x.status === 401) alert('mot de passe incorrect')
-    else if (x.status === 404) alert('identifiants incrorects')
-    else alert('okokok')
+    if (x.status === 401 || x.status === 404) {
+        const errorDisplay = document.createElement('p')
+        errorDisplay.textContent = "Erreur dans l’identifiant ou le mot de passe"
+        errorDisplay.classList.add('loginErrorMsg')
+        console.log(errorDisplay);
+        
+        const loginFormContainer = document.querySelector('.loginFormContainer')
+        const p = document.querySelector('.loginErrorMsg')
+        if (p) p.remove() 
+        loginFormContainer.append(errorDisplay)
+    } else if (x.status === 200) {
+        const p = document.querySelector('.loginErrorMsg')
+        if (p) p.remove() 
+    }
 }
 
 document.getElementById('logSubmit').addEventListener('submit', (e) => {
     e.preventDefault()
     sendRequestUser()
 })
+
+
+
+
+
+
