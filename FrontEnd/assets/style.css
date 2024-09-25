@@ -57,6 +57,7 @@ body {
 	margin:auto;
 	font-family: 'Work Sans' ;
 	font-size: 14px;
+	background-color: var(--main-bg-color);
 }
 header {
 	display: flex;
@@ -103,6 +104,25 @@ nav li {
 li:hover {
 	color: #B1663C;
 }
+
+/**** edit header  ****/
+
+.editHeader {
+	display: flex;
+	background-color: black;
+	color: white;
+	height: 60px;
+	align-items: center;
+	justify-content: center;
+}
+
+.fa-pen-to-square {
+	margin-right: 10px;
+}
+
+/**** introduction  ****/
+
+
 #introduction {
 	display: flex;
 	align-items: center;
@@ -129,6 +149,14 @@ li:hover {
 #portfolio h2 {
 	text-align: center;
 	margin-bottom: 1em;
+}
+
+/**** projets title  ****/
+
+.modify {
+	margin-left: 10px;
+	font-size: 16px;
+	color: black;
 }
 
 /******* categories  *******/

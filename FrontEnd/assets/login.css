@@ -4,10 +4,6 @@
     box-sizing: border-box;
 }
 
-body {
-    background-color: var(--main-bg-color);
-}
-
 main {
     display: flex;
     justify-content: center;
