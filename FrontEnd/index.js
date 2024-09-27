@@ -1,3 +1,5 @@
+// import { inCaseLoggedForEditMain } from "./logged.js"
+
 function displayWorks (category) {
     fetch("http://localhost:5678/api/works")
         .then(r => r.json())
@@ -21,7 +23,6 @@ function displayWorks (category) {
         })
 }
 
-
 fetch("http://localhost:5678/api/categories")
     .then(r => r.json())
     .then(x => {
@@ -33,10 +34,10 @@ fetch("http://localhost:5678/api/categories")
         categories.append(buttonAll)
 
         const categoriesArray = []
-        for (c of x) {
+        for (const c of x) {
             categoriesArray.push(c)
         }
-        for (c of categoriesArray) {
+        for (const c of categoriesArray) {
             const button = document.createElement('button')
             button.textContent = c.name
             button.dataset.name = c.name
@@ -45,7 +46,7 @@ fetch("http://localhost:5678/api/categories")
             categories.append(button)
         }
         const buttons = document.querySelectorAll('.categories button')
-        for (b of buttons) {
+        for (const b of buttons) {
             listenButtonClick(b, buttons)
         }
        buttonAll.click()
@@ -55,10 +56,6 @@ fetch("http://localhost:5678/api/categories")
         buttonclicked.addEventListener('click', (e) => {
             buttons.forEach (b=> b.classList.remove('buttonActive'))
             e.target.classList.add('buttonActive')
-            console.log(e.target.dataset.name);
-            
             displayWorks(e.target.dataset.name)
             })
     }
-
-  

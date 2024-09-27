@@ -154,6 +154,7 @@ li:hover {
 /**** projets title  ****/
 
 .modify {
+	cursor: pointer;
 	margin-left: 10px;
 	font-size: 16px;
 	color: black;
@@ -246,4 +247,120 @@ footer nav ul {
 	display: flex;
 	justify-content: flex-end;
 	margin: 2em
+}
+
+/********* modal  ************/
+
+.overlay {
+	z-index: 5;
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(0, 0, 0, 0.5);
+	display: none;
+}
+
+.modal {
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	z-index: 10;
+	position: fixed;
+	width: 430px;
+	height: 690px;
+    top: 50%; 
+    left: 50%; 
+    transform: translate(-50%, -50%); 
+    background-color: white;
+	padding: 0 100px;
+	border-radius: 10px;
+	display: none;
+}
+
+.modal i {
+	cursor: pointer;
+}
+
+.modalHeader {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	height: 110px;
+}
+
+.modal .fa-arrow-left {
+	position: absolute;
+	padding: 10px;
+	top: 20px;
+	left: 20px;
+	transform: scale(1.3);
+	display: none;
+}
+
+.modal .fa-xmark {
+	position: absolute;
+	padding: 10px;
+	top: 20px;
+	right: 20px;
+	transform: scale(1.3);
+}
+
+.modalFooter {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	box-sizing: border-box;
+	height: 120px;
+	border-top: 1px solid grey
+}
+
+.revealForBlock {
+	display: block!important;
+} 
+
+.revealModal {
+	display: flex;
+}
+
+/* css pour injection modal  */
+
+.modalFooter button {
+	background-color: #1D6154;
+	color: white;
+	border: none;
+	height: 35px;
+	border-radius: 60px;
+	width: 235px;
+	font-family: 'Syne';
+	font-weight: 700;
+}
+
+.modalGallery {
+	display: flex;
+	flex-wrap: wrap;
+}
+
+.modalGalleryImgs {
+	width: 20%;
+}
+
+.uploadImg {
+	display: flex;
+	flex-direction: column;
+	background-color: #E8F1F6;
+}
+
+.titleAndCategory {
+	display: flex;
+	flex-direction: column;
+}
+
+.modalButtonDisabled {
+	background-color: grey!important;
+}
+
+.titleAndCategory input, .titleAndCategory select {
+	height: 50px;
 }
