@@ -251,7 +251,7 @@ footer nav ul {
 
 /********* modal  ************/
 
-.overlay {
+/* .overlay {
 	z-index: 5;
 	position: fixed;
 	top: 0;
@@ -260,26 +260,24 @@ footer nav ul {
 	height: 100%;
 	background-color: rgba(0, 0, 0, 0.5);
 	display: none;
+} */
+
+dialog {
+	border: none;
+	border-radius: 10px;
 }
 
-.modal {
+.dialogContent {
 	display: flex;
 	flex-direction: column;
 	justify-content: space-between;
-	z-index: 10;
-	position: fixed;
 	width: 430px;
 	height: 690px;
-    top: 50%; 
-    left: 50%; 
-    transform: translate(-50%, -50%); 
     background-color: white;
 	padding: 0 100px;
-	border-radius: 10px;
-	display: none;
 }
 
-.modal i {
+.dialogContent i {
 	cursor: pointer;
 }
 
@@ -290,7 +288,7 @@ footer nav ul {
 	height: 110px;
 }
 
-.modal .fa-arrow-left {
+.dialogContent .fa-arrow-left {
 	position: absolute;
 	padding: 10px;
 	top: 20px;
@@ -299,7 +297,7 @@ footer nav ul {
 	display: none;
 }
 
-.modal .fa-xmark {
+.dialogContent .fa-xmark {
 	position: absolute;
 	padding: 10px;
 	top: 20px;
@@ -320,10 +318,6 @@ footer nav ul {
 	display: block!important;
 } 
 
-.revealModal {
-	display: flex;
-}
-
 /* css pour injection modal  */
 
 .modalFooter button {
@@ -342,14 +336,38 @@ footer nav ul {
 	flex-wrap: wrap;
 }
 
+.elsContainer {
+	position: relative;
+	width:20%;
+}
+
 .modalGalleryImgs {
-	width: 20%;
+	width: 100%
+}
+
+.elsContainer .fa-trash-can {
+	position: absolute;
+	right: 5px;
+	top: 5px;
+	z-index: 10;
+	background-color: black;
+	color: white;
+	height: 17px;
+	width: 17px;
+	text-align: center;
+	font-size: 10px;
+	line-height: 17px;
+	border-radius: 2px;
 }
 
 .uploadImg {
 	display: flex;
 	flex-direction: column;
 	background-color: #E8F1F6;
+}
+
+.uploadImg img {
+	width: 20%;
 }
 
 .titleAndCategory {
