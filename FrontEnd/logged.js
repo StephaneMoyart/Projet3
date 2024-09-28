@@ -1,10 +1,4 @@
-function getCookie(name) {
-    const cookie = document.cookie.split('; ')
-    const value = cookie
-        .find(c => c.startsWith(name))
-        if (value) return "pass"
-        else return null
-}
+import { getCookie } from './cookie.js'
 
 function inCaseLoggedForLogoutDisplay () {
     

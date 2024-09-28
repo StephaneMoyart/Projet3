@@ -1,5 +1,3 @@
-// import { inCaseLoggedForEditMain } from "./logged.js"
-
 function displayWorks (category) {
     fetch("http://localhost:5678/api/works")
         .then(r => r.json())

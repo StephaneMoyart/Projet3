@@ -265,6 +265,8 @@ footer nav ul {
 dialog {
 	border: none;
 	border-radius: 10px;
+	/* box-sizing: 0; */
+	padding: 0;
 }
 
 .dialogContent {
@@ -317,8 +319,6 @@ dialog {
 .revealForBlock {
 	display: block!important;
 } 
-
-/* css pour injection modal  */
 
 .modalFooter button {
 	background-color: #1D6154;

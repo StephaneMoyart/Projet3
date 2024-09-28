@@ -1,25 +1,26 @@
+import { token, getToken, getCookie } from './cookie.js'
+
 function openModal() {
-    document.querySelector('.modify').addEventListener('click', () => {
-        document.querySelector('dialog').showModal()
-        displayModalContent(1)
+    if (getCookie("acces") === "pass") {
+        document.querySelector('.modify').addEventListener('click', (e) => {
+            e.stopPropagation()
+            document.querySelector('dialog').showModal()
+            displayModalContent(1)
     })
+    }
 }
 
 function closeModal() {
     document.querySelector('dialog .fa-xmark')
     .addEventListener('click', () => document.querySelector('dialog').close())
+    
+    const dialog = document.querySelector('dialog')
+    dialog.addEventListener('click', (e) => {
+        if (dialog === e.target) dialog.close()
+    })
 } 
 
-
-let token = null
-    
-function getToken() {
-    const cookie = document.cookie.split('; ')
-    const value = cookie
-        .find(c => c.startsWith('acces'))
-    token = value.split('=')[1]
-    return token
-}
+document.querySelector('dialog').addEventListener('click', e => console.log(e.target))
 
 function addDeleteIcon(elsContainer, work) {
     const deleteIcon = document.createElement('i')
@@ -28,7 +29,7 @@ function addDeleteIcon(elsContainer, work) {
     elsContainer.append(deleteIcon)
 }
 
-function listenClickToDeleteWork(deleteIcon) {
+function listenClickToDeleteWork(deleteIcon, elsContainer) {
     deleteIcon.addEventListener('click', (e) => {
         getToken()
         const toDelete = {
@@ -38,6 +39,7 @@ function listenClickToDeleteWork(deleteIcon) {
             }
         }
         fetch(`http://localhost:5678/api/works/${e.target.id}`, toDelete)
+        elsContainer.remove()
     })
 }
 
@@ -63,7 +65,7 @@ function displayModal1() {
                         modalGallery.append(elsContainer)
 
                         const deleteIcon = elsContainer.querySelector('.fa-trash-can')
-                        listenClickToDeleteWork(deleteIcon)
+                        listenClickToDeleteWork(deleteIcon, elsContainer)
                     }
                     document.querySelector('.modalBody').innerHTML = ""
                     
@@ -246,10 +248,10 @@ async function SendFormValuesOnButtonClick () {
         body: formData 
     }
     fetch("http://localhost:5678/api/works", toPostNewWork)
-        .then(r => console.log(r))
-    
+        .then(r => {
+            if (r.status === 201) document.querySelector('dialog').close()
+            })
 }
-
 
 
 
