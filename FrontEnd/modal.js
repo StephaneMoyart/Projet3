@@ -1,4 +1,5 @@
 import { token, getToken, getCookie } from './cookie.js'
+import { displayWorksByCategory } from './index.js'
 
 function openModal() {
     if (getCookie("acces") === "pass") {
@@ -40,6 +41,7 @@ function listenClickToDeleteWork(deleteIcon, elsContainer) {
         }
         fetch(`http://localhost:5678/api/works/${e.target.id}`, toDelete)
         elsContainer.remove()
+        displayWorksByCategory()
     })
 }
 
@@ -169,17 +171,19 @@ function listenInputImg() {
     const uploadImg = document.querySelector('.uploadImg #img')
     uploadImg.addEventListener('change', (e) => {
         const file = e.target.files[0]
-        const reader = new FileReader()
-        reader.readAsDataURL(file)
-        reader.onload = e => {
-            const imgLoaded = document.createElement('img')
-            imgLoaded.src = e.target.result
-            console.log(imgLoaded);
-            
-            if (imgLoaded.src.length > 0) {
-                document.querySelectorAll('.uploadImg *')
-                    .forEach(el => el.style.display = "none")
-                document.querySelector('.uploadImg').append(imgLoaded) 
+        if (file.type.startsWith('image/')) {
+            const reader = new FileReader()
+            reader.readAsDataURL(file)
+            reader.onload = (e) => {
+                const imgLoaded = document.createElement('img')
+                imgLoaded.src = e.target.result
+                console.log(imgLoaded);
+                
+                if (imgLoaded.src.length > 0) {
+                    document.querySelectorAll('.uploadImg *')
+                        .forEach(el => el.style.display = "none")
+                    document.querySelector('.uploadImg').append(imgLoaded) 
+                }
             }
         }
     })
@@ -249,7 +253,11 @@ async function SendFormValuesOnButtonClick () {
     }
     fetch("http://localhost:5678/api/works", toPostNewWork)
         .then(r => {
-            if (r.status === 201) document.querySelector('dialog').close()
+            if (r.status === 201) {
+                button.disabled = true
+                document.querySelector('dialog').close()
+                displayWorksByCategory()
+            }
             })
 }
 
