@@ -1,7 +1,6 @@
 import { getCookie } from './cookie.js'
 
-function inCaseLoggedForLogoutDisplay () {
-    
+function inCaseLoggedForLogoutDisplay () {  
     if (getCookie("acces") === "pass") {
         const logout = document.querySelector('nav ul li:nth-of-type(3)')
         logout.innerHTML = `<a href="index.html">logout</a>`
@@ -23,9 +22,8 @@ function inCaseLoggedForEditHeader () {
         const editHeaderText = document.createElement('p')
         editHeaderText.innerHTML = "<p><i class='fa-regular fa-pen-to-square'></i>mode édition</p>"
 
-        const html = document.querySelector('html')
         editHeader.append(editHeaderText)
-        html.prepend(editHeader)
+        document.querySelector('html').prepend(editHeader)
     }
 }
 
