@@ -1,16 +1,10 @@
-export function getCookie(name) {
-    const cookie = document.cookie.split('; ')
-    const value = cookie
-        .find(c => c.startsWith(name))
-        if (value) return "pass"
-        else return null
+export function getToken() {
+    const cookies = document.cookie.split('; ')
+    const value = cookies
+        .find(c => c.startsWith("acces"))
+    if(value) return value.split('=')[1]
 }
 
-export let token = null
-export function getToken() {
-    const cookie = document.cookie.split('; ')
-    const value = cookie
-        .find(c => c.startsWith('acces'))
-    token = value.split('=')[1]
-    return token
+export function hasToken() {
+    return !!getToken()
 }

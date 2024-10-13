@@ -21,10 +21,11 @@ function sendRequestUser () {
         })
         .then(x => {
             if (x !== null) {
-            document.cookie = `acces = ${x.token}`
-            window.location.href = "index.html"
+                document.cookie = `acces = ${x.token}`
+                window.location.href = "index.html"
             }
-        }) 
+        })
+        .catch(() => alert("Serveur momentannement indisponible, veuillez reessayer ultérieurement..")) 
 }
 
 function resCheck (x) {
@@ -32,7 +33,6 @@ function resCheck (x) {
         const errorDisplay = document.createElement('p')
         errorDisplay.textContent = "Erreur dans l’identifiant ou le mot de passe"
         errorDisplay.classList.add('loginErrorMsg')
-        console.log(errorDisplay);
         
         const loginFormContainer = document.querySelector('.loginFormContainer')
         const p = document.querySelector('.loginErrorMsg')
@@ -48,9 +48,3 @@ document.getElementById('logSubmit').addEventListener('submit', (e) => {
     e.preventDefault()
     sendRequestUser()
 })
-
-
-
-
-
-

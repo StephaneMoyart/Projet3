@@ -7,6 +7,7 @@ export function prepareWorks (category) {
 
             for (const work of x) {
                 const figure = document.createElement('figure')
+                figure.dataset.figureId = work.id
                 
                 const img = document.createElement('img')
                 img.src = work.imageUrl
@@ -33,23 +34,21 @@ export function displayWorksByCategory() {
             buttonAll.dataset.name = "all"
             categories.append(buttonAll)
 
-            const categoriesArray = []
-            for (const c of x) {
-                categoriesArray.push(c)
-            }
-            for (const c of categoriesArray) {
+            x.forEach(x => {
                 const button = document.createElement('button')
-                button.textContent = c.name
-                button.dataset.name = c.name
-                console.log(button.dataset.name);
+                button.textContent = x.name
+                button.dataset.name = x.name
                 
                 categories.append(button)
-            }
+            })
+
             const buttons = document.querySelectorAll('.categories button')
-            for (const b of buttons) {
-                listenButtonClick(b, buttons)
-            }
-        buttonAll.click()
+            for (const b of buttons) listenButtonClick(b, buttons)
+            buttonAll.click()
+        })
+        .catch(() => {
+            const portfolio = document.getElementById('portfolio')
+            portfolio.innerHTML = '<p style="text-align: center; color: red">Erreur lors du chargement de la gallerie...Veuillez réessayer ultérieurement</p>'
         })
 
         function listenButtonClick (buttonclicked, buttons) {

@@ -1,7 +1,7 @@
-import { getCookie } from './cookie.js'
+import { hasToken } from './cookie.js'
 
 function inCaseLoggedForLogoutDisplay () {  
-    if (getCookie("acces") === "pass") {
+    if (hasToken()) {
         const logout = document.querySelector('nav ul li:nth-of-type(3)')
         logout.innerHTML = `<a href="index.html">logout</a>`
         
@@ -12,10 +12,8 @@ function inCaseLoggedForLogoutDisplay () {
     }    
 }
 
-inCaseLoggedForLogoutDisplay()
-
 function inCaseLoggedForEditHeader () {
-    if (getCookie("acces") === "pass") {
+    if (hasToken()) {
         const editHeader = document.createElement('div')
         editHeader.classList.add('editHeader')
 
@@ -27,10 +25,8 @@ function inCaseLoggedForEditHeader () {
     }
 }
 
-inCaseLoggedForEditHeader()
-
 function inCaseLoggedForEditMain() {
-    if (getCookie("acces") === "pass") {
+    if (hasToken()) {
         const modify = document.createElement('span')
         modify.innerHTML = "<i class='fa-regular fa-pen-to-square'></i>modifier"
         modify.classList.add('modify')
@@ -40,6 +36,6 @@ function inCaseLoggedForEditMain() {
     }
 }
 
+inCaseLoggedForLogoutDisplay()
+inCaseLoggedForEditHeader()
 inCaseLoggedForEditMain()
-
-

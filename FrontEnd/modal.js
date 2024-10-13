@@ -1,8 +1,8 @@
-import { token, getToken, getCookie } from './cookie.js'
+import { getToken, hasToken } from './cookie.js'
 import { displayWorksByCategory } from './index.js'
 
 function openModal() {
-    if (getCookie("acces") === "pass") {
+    if (hasToken()) {
         document.querySelector('.modify').addEventListener('click', (e) => {
             document.querySelector('dialog').showModal()
             displayModalContent(1)
@@ -29,43 +29,47 @@ function addDeleteIcon(elsContainer, work) {
 
 function listenClickToDeleteWork(deleteIcon, elsContainer) {
     deleteIcon.addEventListener('click', (e) => {
-        getToken()
         const toDelete = {
             method: "DELETE",
             headers: {
-                Authorization: `Bearer ${token}`,
+                Authorization: `Bearer ${getToken()}`,
             }
         }
         fetch(`http://localhost:5678/api/works/${e.target.id}`, toDelete)
-        elsContainer.remove()
-        displayWorksByCategory()
+            .then(() => {
+                elsContainer.remove()
+                document.querySelector(`[data-figure-id="${e.target.id}"]`).remove()
+            })
     })
 }
 
 function displayModal1() {
     document.querySelector('dialog .fa-arrow-left').classList.remove('revealForBlock')
     fetch("http://localhost:5678/api/works")
-                .then(r => r.json())
-                .then(x => {
-                    const modalGallery = document.createElement('div')
-                    modalGallery.classList.add('modalGallery')
+        .then(r => r.json())
+        .then(x => {
+            const modalGallery = document.createElement('div')
+            modalGallery.classList.add('modalGallery')
                     
-                    for (const work of x) {
-                        const elsContainer = document.createElement('div')
-                        elsContainer.classList.add('elsContainer')
-                        const img = document.createElement('img')
-                        img.src = work.imageUrl
-                        img.classList.add('modalGalleryImgs')
-                        elsContainer.append(img)
-                        addDeleteIcon(elsContainer, work)
-                        modalGallery.append(elsContainer)
-                        const deleteIcon = elsContainer.querySelector('.fa-trash-can')
-                        listenClickToDeleteWork(deleteIcon, elsContainer)
-                    }
-                    document.querySelector('.modalBody').innerHTML = ""
-                    document.querySelector('.modalBody').append(modalGallery)
-                })
-                
+            for (const work of x) {
+                const elsContainer = document.createElement('div')
+                elsContainer.classList.add('elsContainer')
+                const img = document.createElement('img')
+                img.src = work.imageUrl
+                img.classList.add('modalGalleryImgs')
+                elsContainer.append(img)
+                addDeleteIcon(elsContainer, work)
+                modalGallery.append(elsContainer)
+                const deleteIcon = elsContainer.querySelector('.fa-trash-can')
+                listenClickToDeleteWork(deleteIcon, elsContainer)
+            }
+            document.querySelector('.modalBody').innerHTML = ""
+            document.querySelector('.modalBody').append(modalGallery)
+        })
+        .catch(() => {
+            const mbalert = document.querySelector('.modalBody')
+            mbalert.innerHTML = '<p style="text-align: center; color: red">Erreur lors du chargement des travaux...Veuillez réessayer ultérieurement</p>'
+        })
 }
 
 function displayModal2() {
@@ -99,7 +103,6 @@ function displayModal2() {
     createCategoryList()
     enableButton()
     listenInputImg()
-    
 }
 
 function createCategoryList() {
@@ -114,6 +117,14 @@ function createCategoryList() {
                 option.textContent = c.name
                 category.append(option)
             }
+        })
+        .catch(() => {
+            const category = document.getElementById('category')
+            const option = document.createElement('option')
+            option.textContent = "Catégories indisponibles, veuillez réessayer ultérieurement"
+            option.value = "server error"
+            option.selected = true
+            category.append(option)
         })
 }
 
@@ -151,7 +162,7 @@ function displayModalContent (id) {
         if (id === 2 ) {
             button.disabled = true
             button.classList.add('modalButtonDisabled')
-            button.addEventListener('click', async () => await SendFormValuesOnButtonClick())
+            button.addEventListener('click', () => SendFormValuesOnButtonClick())
         }
         if (id === 1) {
             button.addEventListener('click', () => {
@@ -173,7 +184,6 @@ function listenInputImg() {
                 reader.onload = (e) => {
                     const imgLoaded = document.createElement('img')
                     imgLoaded.src = e.target.result
-                    console.log(imgLoaded);
                     
                     if (imgLoaded.src.length > 0) {
                         document.querySelectorAll('.uploadImg *').forEach(el => el.style.display = "none")
@@ -196,12 +206,9 @@ function enableButton() {
 }
 
 function checkInputs(title, select, img) {
-    console.log(img);
-    
-    
     const imgLd = document.querySelector('.uploadImg img')
     const button = document.querySelector('.modalFooter button')
-    if (((imgLd && imgLd.src.length > 0) || img) && title.value.length > 0 && title.value.match(/^[a-zA-Z0-9_."-]*$/) && select.value.length > 0) {
+    if (((imgLd && imgLd.src.length > 0) || img) && title.value.length > 0 && title.value.match(/^[a-zA-Z0-9_."-]*$/) && select.value.length > 0 && select.value !== "server error") {
         button.disabled = false
         button.classList.remove('modalButtonDisabled')
     } else {
@@ -210,7 +217,7 @@ function checkInputs(title, select, img) {
     }
 }
 
-async function SendFormValuesOnButtonClick () {
+function SendFormValuesOnButtonClick () {
     const button = document.querySelector('.modalFooter button')
     const title = document.querySelector('.titleAndCategory input')
     const select = document.querySelector('.titleAndCategory select')
@@ -222,11 +229,10 @@ async function SendFormValuesOnButtonClick () {
     formData.append('image', imgInput.files[0])
     formData.append('category', categoryId)
     
-    getToken()
     const toPostNewWork = {
         method: "POST",
         headers: {
-            Authorization: `Bearer ${token}`,
+            Authorization: `Bearer ${getToken()}`,
         },
         body: formData 
     }
@@ -235,10 +241,12 @@ async function SendFormValuesOnButtonClick () {
         .then(r => {
             if (r.status === 201) {
                 button.disabled = true
-                document.querySelector('dialog').close()
+                // document.querySelector('dialog').close()
+                displayModalContent(1)
                 displayWorksByCategory()
             }
         })
+        .catch(() => alert("Serveur momentannement indisponible, veuillez réessayer ultérieurement"))
 }
 
 openModal()
